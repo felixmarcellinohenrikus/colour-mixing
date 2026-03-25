@@ -87,7 +87,7 @@ def hitung(r, g, b, c, m, y, mode):
         R = min(1.0, (r + m + y) * f)
         G = min(1.0, (g + c + y) * f)
         B = min(1.0, (b + c + m) * f)
-        desc = "Penjumlahan Vektor Cahaya"
+        desc = "Penjumlahan Spektrum Cahaya"
     else:
         R = max(0.0, 1.0 - (c + g + b) * f)
         G = max(0.0, 1.0 - (m + r + b) * f)
@@ -100,24 +100,24 @@ def hitung(r, g, b, c, m, y, mode):
 
 # PANEL KONTROL - Gunakan columns langsung
 st.subheader("🎨 Panel Kontrol")
-st.caption("Atur intensitas lampu (0-3 unit)")
+st.caption("Atur intensitas lampu (0 untuk terendah dan 3 untuk tertinggi)")
 
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown("#### Komponen Primer & Sekunder")
+    st.markdown("#### Komponen RGB")
     r = st.slider("🔴 Merah (R)", 0, 3, 0, key="r")
     g = st.slider("🟢 Hijau (G)", 0, 3, 0, key="g")
     b = st.slider("🔵 Biru (B)", 0, 3, 0, key="b")
 
 with col2:
-    st.markdown("#### Komponen Sekunder & Primer")
+    st.markdown("#### Komponen CMY")
     c = st.slider("🔷 Cyan (C)", 0, 3, 0, key="c")
     m = st.slider("🟣 Magenta (M)", 0, 3, 0, key="m")
     y = st.slider("🟡 Kuning (Y)", 0, 3, 0, key="y")
 
 with col3:
-    st.markdown("#### ✨ Hasil Simulasi")
+    st.markdown("#### Hasil Simulasi")
     R, G, B, hex_col, desc, txt = hitung(r, g, b, c, m, y, mode)
     
     st.markdown(f"""
