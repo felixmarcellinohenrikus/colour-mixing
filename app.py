@@ -141,7 +141,7 @@ with col3:
         unsafe_allow_html=True
     )
     st.markdown(f"""
-    <p style="font-size: 14px; color: #555;">
+    <p style="font-size: 20px; color: #555;">
         <strong>Model Fisika:</strong> {desc_mix}
     </p>
     """, unsafe_allow_html=True)
