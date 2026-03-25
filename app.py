@@ -144,13 +144,13 @@ with col_g1:
 
 with col_g2:
     st.markdown("##### 📋 Detail Nilai")
-    st.markdown(f'<div class="info-box">🔴 Merah: {R:.3f}</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="info-box">🟢 Hijau: {G:.3f}</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="info-box">🔵 Biru: {B:.3f}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="info-box">🔴 Merah: {R:.2f}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="info-box">🟢 Hijau: {G:.2f}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="info-box">🔵 Biru: {B:.2f}</div>', unsafe_allow_html=True)
     
     st.markdown("##### 💡 Input")
-    st.markdown(f'<div class="info-box">R:{r} G:{g} B:{b}</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="info-box">C:{c} M:{m} Y:{y}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="info-box">R:{r}   G:{g}   B:{b}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="info-box">C:{c}   M:{m}   Y:{y}</div>', unsafe_allow_html=True)
 
 st.divider()
 
