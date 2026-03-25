@@ -118,7 +118,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- HEADER SESUAI PERMINTAAN ---
+# --- HEADER ---
 st.markdown("""
 <div class="header-container">
     <div class="header-title">Simulasi Pencampuran Warna</div>
@@ -152,7 +152,6 @@ st.sidebar.info(
 )
 
 # --- INPUT KOMPONEN WARNA ---
-# PANEL KONTROL DENGAN CARD
 st.markdown('<div class="custom-card">', unsafe_allow_html=True)
 st.markdown('<div class="card-title">🎨 Panel Kontrol Intensitas Lampu/Filter</div>', unsafe_allow_html=True)
 st.caption("Atur jumlah unit lampu yang dinyalakan (0 - 3 unit per warna)")
@@ -212,7 +211,7 @@ with col3:
     """, unsafe_allow_html=True)
     st.metric("Model Fisika", desc_mix)
 
-st.markdown('</div>', unsafe_allow_html=True)  # Tutup custom-card
+st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
 
 # ANALISIS KOMPONEN WARNA
@@ -222,11 +221,26 @@ st.markdown('<div class="card-title">📊 Analisis Komponen Warna</div>', unsafe
 col_graph1, col_graph2 = st.columns([2, 1])
 
 with col_graph1:
-    # ... (kode grafik plotly tetap sama) ...
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        x=['Merah (R)', 'Hijau (G)', 'Biru (B)'],
+        y=[red_val, green_val, blue_val],
+        marker_color=['#FF0000', '#00FF00', '#0000FF'],
+        text=[f"{red_val:.2f}", f"{green_val:.2f}", f"{blue_val:.2f}"],
+        textposition='auto',
+        name='Intensitas'
+    ))
+    fig.update_layout(
+        title="Komposisi Intensitas RGB Hasil",
+        yaxis=dict(range=[0, 1.1]),
+        height=400,
+        template="plotly_white",
+        xaxis_title="Komponen Warna",
+        yaxis_title="Intensitas (0-1)"
+    )
     st.plotly_chart(fig, use_container_width=True)
 
 with col_graph2:
-    # Detail Nilai dengan styling
     st.markdown('<div class="detail-section">', unsafe_allow_html=True)
     st.markdown('<div class="card-title">Detail Nilai</div>', unsafe_allow_html=True)
     
@@ -242,16 +256,16 @@ with col_graph2:
     </div>
     """, unsafe_allow_html=True)
     
-    st.markdown('</div>', unsafe_allow_html=True)  # Tutup detail-section
+    st.markdown('</div>', unsafe_allow_html=True)
     
     # Input Lampu dengan styling
     st.markdown('<div class="input-section">', unsafe_allow_html=True)
     st.markdown('<div class="card-title">💡 Input Lampu</div>', unsafe_allow_html=True)
     st.write(f"**R:** {r_lamps}, **G:** {g_lamps}, **B:** {b_lamps}")
     st.write(f"**C:** {c_lamps}, **M:** {m_lamps}, **Y:** {y_lamps}")
-    st.markdown('</div>', unsafe_allow_html=True)  # Tutup input-section
+    st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)  # Tutup custom-card
+st.markdown('</div>', unsafe_allow_html=True)
 
 # EKSPERIMEN DAN UNDUH DATA
 st.markdown('<div class="custom-card">', unsafe_allow_html=True)
@@ -302,7 +316,7 @@ if len(st.session_state.history) > 0:
     with st.expander("Lihat Riwayat Percobaan"):
         st.dataframe(df_history, use_container_width=True)
 
-st.markdown('</div>', unsafe_allow_html=True)  # Tutup custom-card
+st.markdown('</div>', unsafe_allow_html=True)
 
 # --- FOOTER ---
 st.markdown("---")
