@@ -179,9 +179,32 @@ with col3:
     # HASIL SIMULASI
     st.markdown('<div class="card-title">✨ Hasil Simulasi</div>', unsafe_allow_html=True)
     
-    # ... (kode logika fisika tetap sama) ...
+    factor = 1.0 / 3.0
     
-    # Tampilan Warna dengan styling
+    if "Aditif" in mode:
+        red_val = (r_lamps + m_lamps + y_lamps) * factor
+        green_val = (g_lamps + c_lamps + y_lamps) * factor
+        blue_val = (b_lamps + c_lamps + m_lamps) * factor
+        red_val = min(1.0, red_val)
+        green_val = min(1.0, green_val)
+        blue_val = min(1.0, blue_val)
+        text_color = "white"
+        desc_mix = "Penjumlahan Vektor Cahaya"
+    else:
+        absorb_r = (c_lamps + g_lamps + b_lamps) * factor
+        absorb_g = (m_lamps + r_lamps + b_lamps) * factor
+        absorb_b = (y_lamps + r_lamps + g_lamps) * factor
+        red_val = max(0.0, 1.0 - absorb_r)
+        green_val = max(0.0, 1.0 - absorb_g)
+        blue_val = max(0.0, 1.0 - absorb_b)
+        text_color = "black"
+        desc_mix = "Penyerapan Spektrum Cahaya"
+
+    r_hex = int(red_val * 255)
+    g_hex = int(green_val * 255)
+    b_hex = int(blue_val * 255)
+    color_hex = f"#{r_hex:02x}{g_hex:02x}{b_hex:02x}"
+
     st.markdown(f"""
     <div class="result-box">
         <div class="result-color-code">{color_hex.upper()}</div>
