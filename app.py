@@ -140,7 +140,11 @@ with col3:
         """,
         unsafe_allow_html=True
     )
-    st.metric("Model Fisika", desc_mix)
+    st.markdown(f"""
+    <p style="font-size: 14px; color: #555;">
+        <strong>Model Fisika:</strong> {desc_mix}
+    </p>
+    """, unsafe_allow_html=True)
 
 st.divider()
 
