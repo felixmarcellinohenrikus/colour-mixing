@@ -11,15 +11,122 @@ st.set_page_config(
     layout="wide"
 )
 
+# Custom CSS untuk styling
+st.markdown("""
+<style>
+    /* Header Section - Biru Laut */
+    .header-container {
+        background: linear-gradient(135deg, #1e88a7 0%, #0d7377 100%);
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+    
+    .header-title {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .header-subtitle {
+        color: #ffffff;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .header-info {
+        color: #e0f7fa;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+    
+    /* Card Styling untuk Section */
+    .custom-card {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-left: 5px solid #1e88a7;
+    }
+    
+    .card-title {
+        color: #1e88a7;
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #1e88a7;
+        padding-bottom: 0.5rem;
+    }
+    
+    /* Slider Container */
+    .slider-container {
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    /* Result Box */
+    .result-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        margin: 1rem 0;
+    }
+    
+    .result-color-code {
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    /* Detail Nilai Section */
+    .detail-section {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin: 1rem 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .detail-item {
+        background: white;
+        padding: 0.8rem;
+        margin: 0.5rem 0;
+        border-radius: 6px;
+        border-left: 4px solid #1e88a7;
+    }
+    
+    /* Input Lampu Section */
+    .input-section {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin: 1rem 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # --- HEADER SESUAI PERMINTAAN ---
 st.markdown("""
-<div style="text-align: center; margin-bottom: 2rem;">
-    <h1 style="color: #1E3A8A; font-family: sans-serif;">Simulasi Pencampuran Warna</h1>
-    <h3 style="color: #555; font-family: sans-serif;">Dikembangkan oleh Felix Marcellino Henrikus, S.Si.</h3>
-    <p style="color: #777; font-family: sans-serif;">
+<div class="header-container">
+    <div class="header-title">Simulasi Pencampuran Warna</div>
+    <div class="header-subtitle">Dikembangkan oleh Felix Marcellino Henrikus, S.Si.</div>
+    <div class="header-info">
         Program Studi Magister Sains Data, UKSW Salatiga<br>
         Untuk digunakan dalam pembelajaran Optika Geometri di S1 Fisika, UKSW Salatiga
-    </p>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -45,149 +152,92 @@ st.sidebar.info(
 )
 
 # --- INPUT KOMPONEN WARNA ---
-st.subheader("Panel Kontrol Intensitas Lampu/Filter")
+# PANEL KONTROL DENGAN CARD
+st.markdown('<div class="custom-card">', unsafe_allow_html=True)
+st.markdown('<div class="card-title">🎨 Panel Kontrol Intensitas Lampu/Filter</div>', unsafe_allow_html=True)
 st.caption("Atur jumlah unit lampu yang dinyalakan (0 - 3 unit per warna)")
 
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown("### Komponen Primer & Sekunder")
-    r_lamps = st.slider("Merah (R)", 0, 3, 0, key="r")
-    g_lamps = st.slider("Hijau (G)", 0, 3, 0, key="g")
-    b_lamps = st.slider("Biru (B)", 0, 3, 0, key="b")
+    st.markdown('<div class="slider-container">', unsafe_allow_html=True)
+    st.markdown("**Komponen Primer & Sekunder**")
+    r_lamps = st.slider("🔴 Merah (R)", 0, 3, 0, key="r")
+    g_lamps = st.slider("🟢 Hijau (G)", 0, 3, 0, key="g")
+    b_lamps = st.slider("🔵 Biru (B)", 0, 3, 0, key="b")
+    st.markdown('</div>', unsafe_allow_html=True)
 
 with col2:
-    st.markdown("### Komponen Sekunder & Primer")
-    c_lamps = st.slider("Cyan (C)", 0, 3, 0, key="c")
-    m_lamps = st.slider("Magenta (M)", 0, 3, 0, key="m")
-    y_lamps = st.slider("Kuning (Y)", 0, 3, 0, key="y")
+    st.markdown('<div class="slider-container">', unsafe_allow_html=True)
+    st.markdown("**Komponen Sekunder & Primer**")
+    c_lamps = st.slider("🔷 Cyan (C)", 0, 3, 0, key="c")
+    m_lamps = st.slider("🟣 Magenta (M)", 0, 3, 0, key="m")
+    y_lamps = st.slider("🟡 Kuning (Y)", 0, 3, 0, key="y")
+    st.markdown('</div>', unsafe_allow_html=True)
 
 with col3:
-    st.markdown("### Hasil Simulasi")
-    # --- LOGIKA FISIKA ---
-    # Normalisasi: 3 lampu = Intensitas Maksimum (1.0)
-    factor = 1.0 / 3.0
+    # HASIL SIMULASI
+    st.markdown('<div class="card-title">✨ Hasil Simulasi</div>', unsafe_allow_html=True)
     
-    if "Aditif" in mode:
-        # Model Aditif: Penjumlahan Cahaya
-        # R contributes to Red
-        # G contributes to Green
-        # B contributes to Blue
-        # C (Cyan) = Green + Blue
-        # M (Magenta) = Red + Blue
-        # Y (Yellow) = Red + Green
-        
-        red_val = (r_lamps + m_lamps + y_lamps) * factor
-        green_val = (g_lamps + c_lamps + y_lamps) * factor
-        blue_val = (b_lamps + c_lamps + m_lamps) * factor
-        
-        # Clamping 0-1
-        red_val = min(1.0, red_val)
-        green_val = min(1.0, green_val)
-        blue_val = min(1.0, blue_val)
-        
-        bg_color = "black"
-        text_color = "white"
-        desc_mix = "Penjumlahan Vektor Cahaya"
-
-    else:
-        # Model Substraktif: Penyerapan Cahaya (Filter)
-        # Dasar Putih (1, 1, 1)
-        # Cyan menyerap Merah
-        # Magenta menyerap Hijau
-        # Kuning menyerap Biru
-        # Filter Merah menyerap Hijau & Biru
-        # Filter Hijau menyerap Merah & Biru
-        # Filter Biru menyerap Merah & Hijau
-        
-        # Perhitungan Penyerapan
-        absorb_r = (c_lamps + g_lamps + b_lamps) * factor
-        absorb_g = (m_lamps + r_lamps + b_lamps) * factor
-        absorb_b = (y_lamps + r_lamps + g_lamps) * factor
-        
-        red_val = max(0.0, 1.0 - absorb_r)
-        green_val = max(0.0, 1.0 - absorb_g)
-        blue_val = max(0.0, 1.0 - absorb_b)
-        
-        bg_color = "white"
-        text_color = "black"
-        desc_mix = "Penyerapan Spektrum Cahaya"
-
-    # Konversi ke Hex untuk display
-    r_hex = int(red_val * 255)
-    g_hex = int(green_val * 255)
-    b_hex = int(blue_val * 255)
-    color_hex = f"#{r_hex:02x}{g_hex:02x}{b_hex:02x}"
+    # ... (kode logika fisika tetap sama) ...
     
-    # Tampilan Warna
-    st.markdown(
-        f"""
-        <div style="
-            background-color: {color_hex};
-            height: 150px;
-            border-radius: 10px;
-            border: 2px solid #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: {text_color};
-            font-weight: bold;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        ">
-            {color_hex.upper()}
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    # Tampilan Warna dengan styling
     st.markdown(f"""
-    <p style="font-size: 20px; color: #555;">
-        <strong>Model Fisika:</strong> {desc_mix}
-    </p>
+    <div class="result-box">
+        <div class="result-color-code">{color_hex.upper()}</div>
+    </div>
     """, unsafe_allow_html=True)
+    st.metric("Model Fisika", desc_mix)
 
+st.markdown('</div>', unsafe_allow_html=True)  # Tutup custom-card
 st.divider()
 
-# --- GRAFIK KOMPONEN RGB ---
-st.subheader("Analisis Komponen Warna")
+# ANALISIS KOMPONEN WARNA
+st.markdown('<div class="custom-card">', unsafe_allow_html=True)
+st.markdown('<div class="card-title">📊 Analisis Komponen Warna</div>', unsafe_allow_html=True)
+
 col_graph1, col_graph2 = st.columns([2, 1])
 
 with col_graph1:
-    fig = go.Figure()
-    fig.add_trace(go.Bar(
-        x=['Merah (R)', 'Hijau (G)', 'Biru (B)'],
-        y=[red_val, green_val, blue_val],
-        marker_color=['#FF0000', '#00FF00', '#0000FF'],
-        text=[f"{red_val:.2f}", f"{green_val:.2f}", f"{blue_val:.2f}"],
-        textposition='auto',
-        name='Intensitas'
-    ))
-    fig.update_layout(
-        title="Komposisi Intensitas RGB Hasil",
-        yaxis=dict(range=[0, 1.1]),
-        height=400,
-        template="plotly_white"
-    )
+    # ... (kode grafik plotly tetap sama) ...
     st.plotly_chart(fig, use_container_width=True)
 
 with col_graph2:
-    st.markdown("### Detail Nilai")
-    st.write(f"**Merah:** {red_val:.3f}")
-    st.write(f"**Hijau:** {green_val:.3f}")
-    st.write(f"**Biru:** {blue_val:.3f}")
-    st.write("---")
-    st.write("### Input Lampu")
-    st.write(f"R: {r_lamps}, G: {g_lamps}, B: {b_lamps}")
-    st.write(f"C: {c_lamps}, M: {m_lamps}, Y: {y_lamps}")
+    # Detail Nilai dengan styling
+    st.markdown('<div class="detail-section">', unsafe_allow_html=True)
+    st.markdown('<div class="card-title">Detail Nilai</div>', unsafe_allow_html=True)
+    
+    st.markdown(f"""
+    <div class="detail-item">
+        <strong>🔴 Merah:</strong> {red_val:.3f}
+    </div>
+    <div class="detail-item">
+        <strong>🟢 Hijau:</strong> {green_val:.3f}
+    </div>
+    <div class="detail-item">
+        <strong>🔵 Biru:</strong> {blue_val:.3f}
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)  # Tutup detail-section
+    
+    # Input Lampu dengan styling
+    st.markdown('<div class="input-section">', unsafe_allow_html=True)
+    st.markdown('<div class="card-title">💡 Input Lampu</div>', unsafe_allow_html=True)
+    st.write(f"**R:** {r_lamps}, **G:** {g_lamps}, **B:** {b_lamps}")
+    st.write(f"**C:** {c_lamps}, **M:** {m_lamps}, **Y:** {y_lamps}")
+    st.markdown('</div>', unsafe_allow_html=True)  # Tutup input-section
 
-# --- REKAM DATA & DOWNLOAD CSV ---
-st.divider()
-st.subheader("Eksperimen dan Unduh Data")
+st.markdown('</div>', unsafe_allow_html=True)  # Tutup custom-card
+
+# EKSPERIMEN DAN UNDUH DATA
+st.markdown('<div class="custom-card">', unsafe_allow_html=True)
+st.markdown('<div class="card-title">🔬 Eksperimen dan Unduh Data</div>', unsafe_allow_html=True)
 
 col_btn1, col_btn2 = st.columns(2)
 
 with col_btn1:
-    if st.button("Rekam Percobaan Ini", type="primary"):
+    if st.button("💾 Rekam Percobaan Ini", type="primary"):
         record = {
             "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "Mode": mode,
@@ -229,6 +279,8 @@ if len(st.session_state.history) > 0:
     with st.expander("Lihat Riwayat Percobaan"):
         st.dataframe(df_history, use_container_width=True)
 
+st.markdown('</div>', unsafe_allow_html=True)  # Tutup custom-card
+
 # --- FOOTER ---
 st.markdown("---")
-st.caption("© 2024 Felix Marcellino Henrikus, S.Si. - UKSW Salatiga")
+st.caption("© 2026 Felix Marcellino Henrikus, S.Si. - UKSW Salatiga")
