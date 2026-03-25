@@ -15,11 +15,11 @@ st.set_page_config(
 )
 
 # =============================================================================
-# CUSTOM CSS - MENARGETKAN CONTAINER STREAMLIT
+# CUSTOM CSS
 # =============================================================================
 st.markdown("""
 <style>
-    /* Header - Sudah benar */
+    /* Header */
     .header-container {
         background: linear-gradient(135deg, #1e88a7 0%, #0d7377 100%);
         padding: 2.5rem;
@@ -48,32 +48,49 @@ st.markdown("""
         margin: 0.5rem 0;
     }
 
-    /* SECTION CONTAINER - Menggunakan class Streamlit */
-    div[data-testid="stVerticalBlock"] > div.element-container:has(.section-title) {
+    /* Main Card Container */
+    .main-card {
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         border-radius: 15px;
         padding: 2rem;
-        margin: 1rem 0;
+        margin: 1.5rem 0;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         border-left: 6px solid #1e88a7;
     }
 
-    /* Slider Container Styling */
-    .slider-wrapper {
+    /* Section Title */
+    .section-header {
+        color: #1e88a7;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.8rem;
+        border-bottom: 3px solid #1e88a7;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* Inner Box */
+    .inner-box {
         background: white;
         padding: 1.5rem;
         border-radius: 10px;
-        margin-bottom: 1rem;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        height: 100%;
     }
 
-    /* Result Box */
-    .result-display {
+    /* Result Display */
+    .result-box {
         border-radius: 12px;
         padding: 2rem;
         text-align: center;
-        margin: 1rem 0;
         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        min-height: 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
     .color-code {
         font-size: 2rem;
@@ -82,14 +99,14 @@ st.markdown("""
     }
 
     /* Detail & Input Boxes */
-    .detail-container {
+    .gradient-box-1 {
         background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
         padding: 1.5rem;
         border-radius: 10px;
         margin: 1rem 0;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    .input-container {
+    .gradient-box-2 {
         background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
         padding: 1.5rem;
         border-radius: 10px;
@@ -104,19 +121,12 @@ st.markdown("""
         border-left: 4px solid #1e88a7;
     }
 
-    /* Section Title */
-    .section-title {
-        color: #1e88a7;
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 3px solid #1e88a7;
+    /* Remove default Streamlit margins */
+    .stMarkdown {
+        margin: 0;
     }
-
-    /* Override Streamlit spacing */
-    .stMarkdown p {
-        margin: 0.5rem 0;
+    div[data-testid="stVerticalBlock"] > div[style*="flex-direction: column"] {
+        gap: 0.3rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -187,74 +197,64 @@ def hitung_warna(r, g, b, c, m, y, mode):
     return red_val, green_val, blue_val, color_hex, desc, text_color
 
 # =============================================================================
-# FUNGSI HELPER: BUAT SECTION DENGAN BACKGROUND
+# PANEL KONTROL - STRUKTUR DIPERBAIKI
 # =============================================================================
-def create_section(title, content_func, key=None):
-    """Membuat section dengan background gradient"""
-    section_id = f"section_{key}" if key else "section_default"
-    
-    # Container dengan styling
-    container = st.container()
-    with container:
-        # Title
-        st.markdown(f'<div class="section-title">{title}</div>', unsafe_allow_html=True)
-        # Content
-        content_func()
-        st.markdown("---")
-    
-    return container
+# Main container untuk Panel Kontrol
+st.markdown('<div class="main-card">', unsafe_allow_html=True)
+st.markdown('<div class="section-header">🎨 Panel Kontrol Intensitas Lampu/Filter</div>', unsafe_allow_html=True)
+st.markdown('<p style="margin-bottom: 2rem; color: #555;">Atur jumlah unit lampu yang dinyalakan (0 - 3 unit per warna)</p>', unsafe_allow_html=True)
 
-# =============================================================================
-# PANEL KONTROL
-# =============================================================================
-st.markdown('<div class="section-title">🎨 Panel Kontrol Intensitas Lampu/Filter</div>', unsafe_allow_html=True)
-st.caption("Atur jumlah unit lampu yang dinyalakan (0 - 3 unit per warna)")
-
-# Buat 3 kolom untuk slider
+# Buat 3 kolom
 col1, col2, col3 = st.columns(3)
 
+# Kolom 1 - Slider Primer
 with col1:
-    st.markdown('<div class="slider-wrapper">', unsafe_allow_html=True)
-    st.markdown("**Komponen Primer & Sekunder**")
-    r_lamps = st.slider("🔴 Merah (R)", 0, 3, 0, key="r")
-    g_lamps = st.slider("🟢 Hijau (G)", 0, 3, 0, key="g")
-    b_lamps = st.slider("🔵 Biru (B)", 0, 3, 0, key="b")
+    st.markdown('<div class="inner-box">', unsafe_allow_html=True)
+    st.markdown('<h4 style="color: #1e88a7; margin-top: 0; margin-bottom: 1.5rem; font-size: 1.1rem;">Komponen Primer & Sekunder</h4>', unsafe_allow_html=True)
+    r_lamps = st.slider("🔴 Merah (R)", 0, 3, 0, key="slider_r")
+    g_lamps = st.slider("🟢 Hijau (G)", 0, 3, 0, key="slider_g")
+    b_lamps = st.slider("🔵 Biru (B)", 0, 3, 0, key="slider_b")
     st.markdown('</div>', unsafe_allow_html=True)
 
+# Kolom 2 - Slider Sekunder
 with col2:
-    st.markdown('<div class="slider-wrapper">', unsafe_allow_html=True)
-    st.markdown("**Komponen Sekunder & Primer**")
-    c_lamps = st.slider("🔷 Cyan (C)", 0, 3, 0, key="c")
-    m_lamps = st.slider("🟣 Magenta (M)", 0, 3, 0, key="m")
-    y_lamps = st.slider("🟡 Kuning (Y)", 0, 3, 0, key="y")
+    st.markdown('<div class="inner-box">', unsafe_allow_html=True)
+    st.markdown('<h4 style="color: #1e88a7; margin-top: 0; margin-bottom: 1.5rem; font-size: 1.1rem;">Komponen Sekunder & Primer</h4>', unsafe_allow_html=True)
+    c_lamps = st.slider("🔷 Cyan (C)", 0, 3, 0, key="slider_c")
+    m_lamps = st.slider("🟣 Magenta (M)", 0, 3, 0, key="slider_m")
+    y_lamps = st.slider("🟡 Kuning (Y)", 0, 3, 0, key="slider_y")
     st.markdown('</div>', unsafe_allow_html=True)
 
+# Kolom 3 - Hasil
 with col3:
-    st.markdown('<div class="slider-wrapper">', unsafe_allow_html=True)
-    st.markdown("**✨ Hasil Simulasi**")
+    st.markdown('<div class="inner-box">', unsafe_allow_html=True)
+    st.markdown('<h4 style="color: #1e88a7; margin-top: 0; margin-bottom: 1.5rem; font-size: 1.1rem;">✨ Hasil Simulasi</h4>', unsafe_allow_html=True)
     
     # Hitung warna
     red_val, green_val, blue_val, color_hex, desc_mix, text_color = hitung_warna(
         r_lamps, g_lamps, b_lamps, c_lamps, m_lamps, y_lamps, mode
     )
     
-    # Tampilkan hasil dengan background dinamis
+    # Tampilkan hasil
     st.markdown(f"""
-    <div class="result-display" style="background: linear-gradient(135deg, {color_hex}, {color_hex});">
+    <div class="result-box" style="background: linear-gradient(135deg, {color_hex}, {color_hex});">
         <div class="color-code" style="color: {text_color};">{color_hex.upper()}</div>
-        <div style="color: {text_color}; margin-top: 1rem;">
+        <div style="color: {text_color}; margin-top: 1rem; font-size: 0.95rem;">
             <strong>Model Fisika:</strong><br>{desc_mix}
         </div>
     </div>
     """, unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
+st.markdown('</div>', unsafe_allow_html=True)
+
 st.divider()
 
 # =============================================================================
 # ANALISIS KOMPONEN WARNA
 # =============================================================================
-st.markdown('<div class="section-title">📊 Analisis Komponen Warna</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-card">', unsafe_allow_html=True)
+st.markdown('<div class="section-header">📊 Analisis Komponen Warna</div>', unsafe_allow_html=True)
 
 col_graph1, col_graph2 = st.columns([2, 1])
 
@@ -280,8 +280,8 @@ with col_graph1:
 
 with col_graph2:
     # Detail Nilai
-    st.markdown('<div class="detail-container">', unsafe_allow_html=True)
-    st.markdown('<h4 style="color: #1e88a7; margin-top: 0;">📋 Detail Nilai</h4>', unsafe_allow_html=True)
+    st.markdown('<div class="gradient-box-1">', unsafe_allow_html=True)
+    st.markdown('<h4 style="color: #1e88a7; margin-top: 0; margin-bottom: 1rem;">📋 Detail Nilai</h4>', unsafe_allow_html=True)
     st.markdown(f"""
         <div class="info-item">🔴 <strong>Merah:</strong> {red_val:.3f}</div>
         <div class="info-item">🟢 <strong>Hijau:</strong> {green_val:.3f}</div>
@@ -290,8 +290,8 @@ with col_graph2:
     st.markdown('</div>', unsafe_allow_html=True)
     
     # Input Lampu
-    st.markdown('<div class="input-container">', unsafe_allow_html=True)
-    st.markdown('<h4 style="color: #1e88a7; margin-top: 0;">💡 Input Lampu</h4>', unsafe_allow_html=True)
+    st.markdown('<div class="gradient-box-2">', unsafe_allow_html=True)
+    st.markdown('<h4 style="color: #1e88a7; margin-top: 0; margin-bottom: 1rem;">💡 Input Lampu</h4>', unsafe_allow_html=True)
     st.markdown(f"""
         <div class="info-item">
             <strong>Primer:</strong><br>
@@ -304,12 +304,15 @@ with col_graph2:
     """, unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
+st.markdown('</div>', unsafe_allow_html=True)
+
 st.divider()
 
 # =============================================================================
 # EKSPERIMEN DAN UNDUH DATA
 # =============================================================================
-st.markdown('<div class="section-title">🔬 Eksperimen dan Unduh Data</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-card">', unsafe_allow_html=True)
+st.markdown('<div class="section-header">🔬 Eksperimen dan Unduh Data</div>', unsafe_allow_html=True)
 
 col_btn1, col_btn2 = st.columns(2)
 
@@ -354,6 +357,8 @@ if len(st.session_state.history) > 0:
     st.markdown("---")
     with st.expander(f"📜 Lihat Riwayat Percobaan ({len(st.session_state.history)} data)"):
         st.dataframe(df_history, use_container_width=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 # =============================================================================
 # FOOTER
